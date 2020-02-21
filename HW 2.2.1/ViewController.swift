@@ -10,7 +10,7 @@ import UIKit
 
 class ViewController: UIViewController {
     
-    
+    // interface elements
     @IBOutlet var colorView: UIView!
     
     @IBOutlet var redLabel: UILabel!
@@ -29,17 +29,21 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // установка делегатом ViewController
         redTF.delegate = self
         greenTF.delegate = self
         blueTF.delegate = self
         
+        // добавление кнопки Done
         setDoneOnKeyboard(textFields: redTF, greenTF, blueTF)
         
+        // установка серого цвета ColorView
         colorView.backgroundColor = .gray
     }
     
-    
+    // обработка использования слайдера
     @IBAction func sliderUsed(_ sender: UISlider) {
+        // определение через tag какой слайдер используется
         switch sender.tag {
         case 0:
             redTF.text = sender.value.string()
@@ -53,9 +57,10 @@ class ViewController: UIViewController {
         default:
             break
         }
-        setColor()
+        setColor() // обновление параметров colorView
     }
     
+    // метод изменения цвета colorView
     private func setColor() {
         colorView.backgroundColor = UIColor(
             red: CGFloat(redSlider.value),
@@ -66,8 +71,10 @@ class ViewController: UIViewController {
     
 }
 
+    // MARK: work with keyboard
+
 extension ViewController: UITextFieldDelegate {
-    
+    // метод, позволяющий добавить кнопку Done
     func setDoneOnKeyboard(textFields: UITextField...) {
         let keyboardToolbar = UIToolbar()
         keyboardToolbar.sizeToFit()
@@ -77,23 +84,25 @@ extension ViewController: UITextFieldDelegate {
         for textField in textFields {
             textField.inputAccessoryView = keyboardToolbar
         }
-        
     }
     
+    // метод завершающий редактирование текстового поля
     @objc func dismissKeyboard() {
         view.endEditing(true)
     }
 
-    
+    // метод, позволящий заверш ить редактирование кнопкой Done на клавиатуре
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return true
     }
     
+    // закрываем клавиатуру тапом по экрану
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.view.endEditing(true)
     }
     
+    // изменение colorView, лейблов и слайдеров через ввод данных
     func textFieldDidEndEditing(_ textField: UITextField) {
         guard let string = textField.text, let float = Float(string) else { return }
         switch textField.tag {
@@ -112,6 +121,7 @@ extension ViewController: UITextFieldDelegate {
         setColor()
     }
     
+    // устанавливаем максимальную длину вводимого значения и символы, которые можно ввести
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         
         guard
@@ -124,14 +134,12 @@ extension ViewController: UITextFieldDelegate {
             currentString.replacingCharacters(in: range, with: string) as NSString
         return newString.length <= maxLength
     }
-    
 }
 
 
 extension Float {
-    
+    // добавляем функционал для типа Float для удобства
     func string() -> String {
         return String(format: "%.2f", self)
     }
-    
 }
