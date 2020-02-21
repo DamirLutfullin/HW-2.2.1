@@ -25,7 +25,7 @@ class ViewController: UIViewController {
     @IBOutlet var greenTF: UITextField!
     @IBOutlet var blueTF: UITextField!
     
-    
+    // метод жизнененного цикла
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -59,7 +59,7 @@ class ViewController: UIViewController {
         }
         setColor() // обновление параметров colorView
     }
-    
+
     // метод изменения цвета colorView
     private func setColor() {
         colorView.backgroundColor = UIColor(
@@ -68,12 +68,17 @@ class ViewController: UIViewController {
             blue: CGFloat(blueSlider.value),
             alpha: 1)
     }
-    
 }
 
-    // MARK: work with keyboard
 
+    // MARK: work with keyboard
 extension ViewController: UITextFieldDelegate {
+    
+    // закрываем клавиатуру тапом по экрану
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.view.endEditing(true)
+    }
+ 
     // метод, позволяющий добавить кнопку Done
     func setDoneOnKeyboard(textFields: UITextField...) {
         let keyboardToolbar = UIToolbar()
@@ -95,11 +100,6 @@ extension ViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return true
-    }
-    
-    // закрываем клавиатуру тапом по экрану
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        self.view.endEditing(true)
     }
     
     // изменение colorView, лейблов и слайдеров через ввод данных
