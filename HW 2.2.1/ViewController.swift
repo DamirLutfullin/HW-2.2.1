@@ -59,7 +59,7 @@ class ViewController: UIViewController {
         }
         setColor() // обновление параметров colorView
     }
-
+    
     // метод изменения цвета colorView
     private func setColor() {
         colorView.backgroundColor = UIColor(
@@ -71,20 +71,28 @@ class ViewController: UIViewController {
 }
 
 
-    // MARK: work with keyboard
+// MARK: work with keyboard
 extension ViewController: UITextFieldDelegate {
     
     // закрываем клавиатуру тапом по экрану
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.view.endEditing(true)
     }
- 
+    
     // метод, позволяющий добавить кнопку Done
     func setDoneOnKeyboard(textFields: UITextField...) {
         let keyboardToolbar = UIToolbar()
         keyboardToolbar.sizeToFit()
-        let flexBarButton = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
-        let doneBarButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(self.dismissKeyboard))
+        let flexBarButton = UIBarButtonItem(
+            barButtonSystemItem: .flexibleSpace,
+            target: nil,
+            action: nil
+        )
+        let doneBarButton = UIBarButtonItem(
+            barButtonSystemItem: .done,
+            target: self,
+            action: #selector(self.dismissKeyboard)
+        )
         keyboardToolbar.items = [flexBarButton, doneBarButton]
         for textField in textFields {
             textField.inputAccessoryView = keyboardToolbar
@@ -95,7 +103,7 @@ extension ViewController: UITextFieldDelegate {
     @objc func dismissKeyboard() {
         view.endEditing(true)
     }
-
+    
     // метод, позволящий заверш ить редактирование кнопкой Done на клавиатуре
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
@@ -122,7 +130,8 @@ extension ViewController: UITextFieldDelegate {
     }
     
     // устанавливаем максимальную длину вводимого значения и символы, которые можно ввести
-    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange,
+                   replacementString string: String) -> Bool {
         
         guard
             Double(string) != nil || string == "" || string == "." || string == ","
